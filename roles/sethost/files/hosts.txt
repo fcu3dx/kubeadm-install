@@ -1,0 +1,11 @@
+127.0.0.1       localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1             localhost localhost.localdomain localhost6 localhost6.localdomain6
+172.17.0.191    k8s-m1.sxkj.uat
+172.17.0.192    k8s-m2.sxkj.uat
+172.17.0.193    k8s-m3.sxkj.uat
+172.17.0.194    k8s-n1.sxkj.uat
+172.17.0.195    k8s-n2.sxkj.uat
+172.17.0.196    k8s-n3.sxkj.uat
+172.17.0.197    k8s-n4.sxkj.uat
+172.17.0.198    k8s-n5.sxkj.uat
+172.17.0.199    k8s-n6.sxkj.uat
