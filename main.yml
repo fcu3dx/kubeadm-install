@@ -1,4 +1,27 @@
-- hosts: test
+# # 配置基础环境，安装yum源及基本软件
+# - hosts: test # ka
+#   remote_user: root
+#   vars:
+#     docker_mirrors: '["https://hhnrk38l.mirror.aliyuncs.com", "http://f1361db2.m.daocloud.io"]'
+#     docker_ip: '10.66.1.1/24'
+#     kubproxy_apiVersion: v1beta2
+#     kubernetesVersion: v1.15.0
+#     controlPlaneEndpoint: "192.168.1.200:8443"
+#     etcd_endpoints: "- https://123.com\n    - https://124.com\n    - https://125.com\n    - https://126.com"
+#     podSubnet: 10.88.0.0/16
+#     kubadm_apiVersion: v1beta2
+#   roles:
+#   - sethost
+#   - docker-yum-soft
+#   - k8s-yum-soft
+
+# 安装 cfssl工具
+- hosts: test[1] #km[0]
   remote_user: root
   roles:
-    - sethost
+  - cfssl
+
+# - hosts: test
+#   remote_user: root
+#   roles:
+#   -

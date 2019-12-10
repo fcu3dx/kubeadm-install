@@ -1,0 +1,53 @@
+# 判断YUM源状态如果不存在则执行添加YUM源
+- name: yum makecache
+  yum:
+    update_cache: yes
+ 
+- name: get docker repolist status
+  shell: "yum repolist | grep docker"
+  register: docker
+
+- name: is exsit k8s yum source
+  debug:
+    var: docker
+
+- name: shell
+  yum_repository:
+    name: docker-ce
+    description: Docker CE 最新版本
+    basurl: https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+    enabled: yes
+    gpgcheck: 0
+    file: docker
+  when: '"docker" not in docker.stdout'
+
+- name: install soft
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+    state: latest
+  loop:
+  - epel-release
+  - device-mapper-persistent-data
+  - lvm2
+  - wget
+  - ipvsadm
+  - docker-ce
+
+
+- name: copy docker-daemon.json 
+  template:
+    dest: /etc/docker/daemon.json
+    src: daemon.json.j2 
+    force: yes
+    mode: 0644
+    backup: yes
+
+
+- name: start docker
+  systemd:
+    name: docker
+    enabled: true
+    daemon_reload: yes
+    state: restarted
+

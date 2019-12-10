@@ -1,0 +1,18 @@
+apiVersion: kubeadm.k8s.io/{{ kubadm_apiVersion }}
+kind: ClusterConfiguration
+kubernetesVersion: {{ kubernetesVersion }}
+controlPlaneEndpoint: {{ controlPlaneEndpoint }}
+etcd:
+  external:
+    endpoints:
+    {{ etcd_endpoints }}
+    caFile: /etc/etcd/ssl/etcd-ca.pem
+    certFile: /etc/etcd/ssl/etcd.pem
+    keyFile: /etc/etcd/ssl/etcd-key.pem
+networking:
+  podSubnet: {{ podSubnet }}
+
+---
+apiVersion: kubeproxy.config.k8s.io/{{ kubproxy_apiVersion }}
+kind: KubeProxyConfiguration
+mode: ipvs

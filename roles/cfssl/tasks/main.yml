@@ -1,10 +1,10 @@
 # 复制 cfss生成工具到主节点
 - name: copy file
   copy:
-    src: "{{ item[0]] }}"
+    src: "{{ item[0] }}"
     dest: "/usr/local/bin/{{ item[1] }}"
     mode: 0755
     force: yes
   loop:
-    - { "cfssl_linux-amd64", "cfssl" }
-    - { "cfssljson_linux-amd64", "cfssljson" }
+  - [ "cfssl_linux-amd64", "cfssl" ]
+  - [ "cfssljson_linux-amd64", "cfssljson" ]

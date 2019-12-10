@@ -33,18 +33,6 @@
 - name: swapoff -a
   shell: "swapoff -a && sysctl -w vm.swappiness=0 && sed -i 's/.*swap.*/#&/g' /etc/fstab"
 
-# sysctl config
-
-# - name: k8s-sysctl
-#   sysctl:
-#     name: "{{ item[0] }}"
-#     value: "{{ item[1] }}"
-#     state: present
-#     reload: yes
-#   loop:
-#     - [net.ipv4.ip_forward, 1]
-#     - [net.bridge.bridge-nf-call-ip6tables, 1]
-#     - [net.bridge.bridge-nf-call-iptables, 1]
 
 # sysctl config
 - name: copy k8s-sysctl
@@ -87,8 +75,8 @@
 
 - name: start chrony
   systemd:
-      name: chronyd 
-      enabled: true
-      daemon_reload: yes
-      state: restarted
+    name: chronyd 
+    enabled: true
+    daemon_reload: yes
+    state: restarted
 

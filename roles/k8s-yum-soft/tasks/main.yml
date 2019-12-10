@@ -1,0 +1,48 @@
+- name: get k8s repolist status
+  shell: "yum repolist |grep  kubernetes"
+  register: kubernetes
+
+- name: yum makecache
+  yum:
+      update_cache: yes
+ 
+- name: get kubernetes repolist status
+  shell: "yum repolist | grep kubernetes"
+  register: kubernetes
+
+- name: is exsit k8s yum source
+  debug:
+    var: kubernetes
+
+- name: shell
+  yum_repository:
+    name: kubernetes-ce
+    description: kubernetes CE 最新版本
+    basurl: https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+    enabled: yes
+    gpgcheck: 1
+    gpgkey: https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+    file: kubernetes
+  when: '"kubernetes" not in kubernetes.stdout'
+
+- name: install soft
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+    state: latest
+  loop:
+  - kubelet
+  - kubeadm
+  - kubectl
+  - kubernetes-cni 
+
+
+
+- name: copy kubernetes file
+  template:
+    dest: /etc/kubernetes/kubeadm-config.ymal
+    src: kubeadm-config.ymal.j2
+    force: yes
+    mode: 0644
+    backup: yes
+
