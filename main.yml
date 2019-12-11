@@ -6,7 +6,7 @@
 #     docker_ip: '10.66.1.1/24'
 #     kubproxy_apiVersion: v1beta2
 #     kubernetesVersion: v1.15.0
-#     controlPlaneEndpoint: "192.168.1.200:8443"
+#     controlPlaneEndpoint: "172.17.0.190:8443"
 #     etcd_endpoints: "- https://123.com\n    - https://124.com\n    - https://125.com\n    - https://126.com"
 #     podSubnet: 10.88.0.0/16
 #     kubadm_apiVersion: v1beta2
@@ -18,10 +18,14 @@
 # 安装 cfssl工具
 - hosts: test[1] #km[0]
   remote_user: root
+  vars:
+    etcd_host_list: "127.0.0.1,172.17.0.191,172.17.0.192,172.17.0.193"
   roles:
   - cfssl
 
+# # 安装ETCD
 # - hosts: test
 #   remote_user: root
 #   roles:
-#   -
+#   - etcd
+

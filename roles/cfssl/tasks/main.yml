@@ -1,10 +1,40 @@
-# 复制 cfss生成工具到主节点
+# 复制 cfss生成工具及配置文件到主节点
+- name: create directory
+  file:
+      path: "/root/ca"
+      state: directory      
+      mode: 0755
+
 - name: copy file
   copy:
     src: "{{ item[0] }}"
-    dest: "/usr/local/bin/{{ item[1] }}"
-    mode: 0755
+    dest: "{{ item[1] }}"
+    mode: "{{ item[2] }}"
     force: yes
   loop:
-  - [ "cfssl_linux-amd64", "cfssl" ]
-  - [ "cfssljson_linux-amd64", "cfssljson" ]
+    - ["cfssl_linux-amd64", "/usr/local/bin/cfssl", "0755"]
+    - ["cfssljson_linux-amd64", "/usr/local/bin/cfssljson", "0755"]
+    - ["ca-config.json", "/root/ca/", "0644"]
+    - ["etcd-ca-csr.json", "/root/ca/", "0644"]
+
+- name: gencert CA files
+  shell: "{{ item }}"
+  loop:
+    - "/usr/local/bin/cfssl gencert -initca /root/ca/etcd-ca-csr.json | /usr/local/bin/cfssljson -bare /root/ca/etcd-ca"
+    - "/usr/local/bin/cfssl gencert -ca=/root/ca/etcd-ca.pem -ca-key=/root/ca/etcd-ca-key.pem -config=/root/ca/ca-config.json -hostname={{ etcd_host_list }} -profile=kubernetes /root/ca/etcd-ca-csr.json | cfssljson -bare /root/ca/etcd"
+
+- name: copy files to local
+  fetch:
+    dest: "roles/etcd/files/"    
+    src: "/root/ca/{{ item }}"
+    flat: yes
+  loop:
+    - etcd-ca-key.pem
+    - etcd-ca.pem
+    - etcd-key.pem
+    - etcd.pem
+
+- name: delete other files
+  file:
+    path: /root/ca
+    state: absent

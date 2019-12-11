@@ -1,0 +1,31 @@
+# 配置 ETCD 并启动 可以使用YUM安装（版本较低），也可以直接使用文件，手动安装最新版本。
+
+- name: create directory
+  file:
+      path: "{{ ssl_path }}"
+      state: directory
+      mode: 0755
+
+# 复制执行文件，各证书文件 
+- name: copy etcd soft and config file
+  copy:
+    src: "{{ item[0] }}"
+    dest: "{{ item[1] }}"
+    mode: "{{ item[2] }}"
+    force: yes
+  loop:
+    - ["etcd", "{{ bin_path }}/", "0755"]
+    - ["etcdctl", "{{ bin_path }}/", "0755"]
+    - ["etcd.pem", "{{ ssl_path }}/", "0644"]
+    - ["etcd-ca.pem", "{{ ssl_path }}/", "0644"]
+    - ["etcd-key.pem", "{{ ssl_path }}/", "0600"]
+    - ["etcd-ca-key.pem", "{{ ssl_path }}/", "0600"]
+
+# 复制配置文件
+- name: config template
+  template:
+    src: aa
+    dest: aa
+    mode: 0644
+
+

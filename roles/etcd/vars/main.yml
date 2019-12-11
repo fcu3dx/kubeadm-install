@@ -1,0 +1,2 @@
+ssl_path: /etc/etcd/ssl
+bin_path: /usr/local/bin
