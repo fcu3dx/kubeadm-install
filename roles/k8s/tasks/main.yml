@@ -1,3 +1,0 @@
-- name: get k8s repolist status
-  shell: "yum repolist |grep  kubernetes"
-  register: kubernetes

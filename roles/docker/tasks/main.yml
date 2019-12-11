@@ -1,4 +1,0 @@
-- name: get docker repolist status
-  shell: "yum repolist |grep docker"
-  register: docker
-
