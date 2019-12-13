@@ -2,4 +2,3 @@
 *.pem
 test*
 
-other/kubeadd.sh

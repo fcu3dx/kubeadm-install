@@ -24,4 +24,5 @@
 
 
 [test2]
-172.17.0.54
+172.17.0.196    hostname=k8s-n3.sxkj.uat
+172.17.0.197    hostname=k8s-n4.sxkj.uat
