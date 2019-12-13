@@ -2,6 +2,7 @@ apiVersion: kubeadm.k8s.io/{{ kubadm_apiVersion }}
 kind: ClusterConfiguration
 kubernetesVersion: {{ kubernetesVersion }}
 controlPlaneEndpoint: {{ controlPlaneEndpoint }}
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
 etcd:
   external:
     endpoints:

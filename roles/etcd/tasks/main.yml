@@ -1,31 +1,61 @@
 # 配置 ETCD 并启动 可以使用YUM安装（版本较低），也可以直接使用文件，手动安装最新版本。
 
+- name: install etcd
+  yum:
+    name: etcd
+    state: present
+
 - name: create directory
   file:
-      path: "{{ ssl_path }}"
-      state: directory
-      mode: 0755
+    path: "{{ ssl_path }}"
+    state: directory
+    owner: etcd
+    group: etcd      
+    mode: 0755
 
-# 复制执行文件，各证书文件 
+  
+  
+
+# # 复制执行文件，各证书文件 
+# - name: copy etcd soft and config file
+#   copy:
+#     src: "{{ item[0] }}"
+#     dest: "{{ item[1] }}"
+#     mode: "{{ item[2] }}"
+#     force: yes
+#   loop:
+#     - ["etcd", "{{ bin_path }}", "0755"]
+#     - ["etcdctl", "{{ bin_path }}", "0755"]
+#     - ["etcd.service","{{service_path}}", "0755"]
+
 - name: copy etcd soft and config file
   copy:
     src: "{{ item[0] }}"
     dest: "{{ item[1] }}"
     mode: "{{ item[2] }}"
+    owner: etcd
+    group: etcd
     force: yes
   loop:
-    - ["etcd", "{{ bin_path }}/", "0755"]
-    - ["etcdctl", "{{ bin_path }}/", "0755"]
-    - ["etcd.pem", "{{ ssl_path }}/", "0644"]
-    - ["etcd-ca.pem", "{{ ssl_path }}/", "0644"]
-    - ["etcd-key.pem", "{{ ssl_path }}/", "0600"]
-    - ["etcd-ca-key.pem", "{{ ssl_path }}/", "0600"]
+    - ["etcd.pem", "{{ ssl_path }}", "0644"]
+    - ["etcd-ca.pem", "{{ ssl_path }}", "0644"]
+    - ["etcd-key.pem", "{{ ssl_path }}", "0600"]
+    - ["etcd-ca-key.pem", "{{ ssl_path }}", "0600"]
 
 # 复制配置文件
 - name: config template
   template:
-    src: aa
-    dest: aa
+    src: etcd.conf.j2
+    dest: /etc/etcd/etcd.conf
     mode: 0644
+    force: yes
+
+- name: start etcd
+  systemd:
+    name: etcd
+    state: restarted
+    daemon-reload: yes
+    enabled: yes
+  
 
 

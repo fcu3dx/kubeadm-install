@@ -7,11 +7,7 @@
   shell: "yum repolist | grep docker"
   register: docker
 
-- name: is exsit k8s yum source
-  debug:
-    var: docker
-
-- name: shell
+- name: set new docker repos
   yum_repository:
     name: docker-ce
     description: Docker CE 最新版本
@@ -25,14 +21,14 @@
   yum:
     update_cache: yes
     name: "{{ item }}"
-    state: latest
+    state: present
   loop:
-  - epel-release
-  - device-mapper-persistent-data
-  - lvm2
-  - wget
-  - ipvsadm
-  - docker-ce
+    - epel-release
+    - device-mapper-persistent-data
+    - lvm2
+    - wget
+    - ipvsadm
+    - docker-ce
 
 
 - name: copy docker-daemon.json 

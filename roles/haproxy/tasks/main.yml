@@ -1,0 +1,34 @@
+- name: install haproxy
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - keepalived
+    - haproxy
+
+- name: copy 
+  template:
+    src: "{{ item[0] }}"
+    dest: "{{ item[1] }}"
+    mode: 0644
+  loop:
+    - ["keepalived.conf.j2", "/etc/keepalived/keepalived.conf"]
+    - ["haproxy.cfg.j2", "/etc/haproxy/haproxy.cfg"]
+
+- name: copy check shell file
+  copy:
+    src: check_haproxy.sh
+    dest: /etc/haproxy/check_haproxy.sh
+    mode: 0755
+
+- name: start keepalived
+  systemd:
+    name: "{{ item }}"
+    daemon-reload: yes
+    enabled: yes
+    state: restarted
+  loop:
+    - haproxy
+    - keepalived
+
+  

@@ -20,6 +20,15 @@ ansible 一键安装 k8s 高可用版
 1. xxxx
 2. xxxx
 3. xxxx
+4. when判断
+
+    判断是否主机名是否包含`k8s-m`字符
+
+```yml
+- name: show ip
+  shell: "hostname"
+  when: "'k8s-m' in ansible_hostname"
+```
 
 ## 参与贡献
 

@@ -1,0 +1,4 @@
+- name: show ip
+  shell: "hostname"
+  # when: "'k8s-m' not in hostname.stdout"
+  when: "'k8s-m' in ansible_hostname"

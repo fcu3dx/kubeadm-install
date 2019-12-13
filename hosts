@@ -1,6 +1,27 @@
+[ka]
+172.17.0.191    hostname=k8s-m1.sxkj.uat
+172.17.0.192    hostname=k8s-m2.sxkj.uat
+172.17.0.193    hostname=k8s-m3.sxkj.uat
+172.17.0.194    hostname=k8s-n1.sxkj.uat
+172.17.0.195    hostname=k8s-n2.sxkj.uat
+172.17.0.196    hostname=k8s-n3.sxkj.uat
+172.17.0.197    hostname=k8s-n4.sxkj.uat
+172.17.0.198    hostname=k8s-n5.sxkj.uat
+172.17.0.199    hostname=k8s-n6.sxkj.uat
+[etcd]
+172.17.0.191    etcd_name=GxEtcdTest01
+172.17.0.192    etcd_name=GxEtcdTest02
+172.17.0.193    etcd_name=GxEtcdTest03
+[haproxy_keepalived]
+172.17.0.191    node_state=MASTER   node_priority=100
+172.17.0.192    node_state=BACKUP   node_priority=90
+172.17.0.193    node_state=BACKUP   node_priority=80
+
 [test]
-172.17.0.191 hostname=k8s-m1.sxkj.uat
-172.17.0.192 hostname=k8s-m2.sxkj.uat
+172.17.0.191
+172.17.0.192
+172.17.0.193
+
 
 [test2]
 172.17.0.54
